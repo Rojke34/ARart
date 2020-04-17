@@ -6,6 +6,9 @@
   "resources" : [
     {
       "filename" : "cows.arreferenceimage"
+    },
+    {
+      "filename" : "marker.arreferenceimage"
     }
   ]
 }
