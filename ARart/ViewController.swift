@@ -9,6 +9,11 @@
 import UIKit
 import ARKit
 
+struct Layer {
+    var node: SCNNode
+    var scale: SCNVector3
+}
+
 class ViewController: UIViewController, ARSCNViewDelegate {
 
     @IBOutlet weak var sessionInfoView: UIView!
@@ -26,6 +31,8 @@ class ViewController: UIViewController, ARSCNViewDelegate {
 
         return occlusionMaterial
     }()
+    
+    var layers = [Layer]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -63,6 +70,29 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     }
 
     // MARK: - ARSCNViewDelegate
+    func session(_ session: ARSession, cameraDidChangeTrackingState camera: ARCamera) {
+        var status = "Loading..."
+        switch camera.trackingState {
+        case ARCamera.TrackingState.notAvailable:
+            status = "Not available"
+        case ARCamera.TrackingState.limited(_):
+            status = "Analyzing..."
+        case ARCamera.TrackingState.normal:
+            status = "Ready"
+        }
+        
+        print(status)
+    }
+        
+    func renderer(_ renderer: SCNSceneRenderer, didUpdate node: SCNNode, for anchor: ARAnchor) {
+        
+        let distance = simd_distance(node.simdTransform.columns.3, (self.sceneView.session.currentFrame?.camera.transform.columns.3)!);
+        
+        for index in layers {
+            index.node.scale = SCNVector3(x: index.scale.x + (index.scale.x * distance), y: index.scale.y + (index.scale.y * distance), z: 0.5)
+        }
+    }
+    
     
     func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
         
@@ -83,11 +113,13 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             mainNode.eulerAngles.x = -.pi / 2
             mainNode.opacity = 1
             node.addChildNode(mainNode)
-
+            
             // Perform a quick animation to visualize the plane on which the image was detected.
             // We want to let our users know that the app is responding to the tracked image.
             self.highlightDetection(on: mainNode, width: w, height: h, completionHandler: {
 
+                self.layers.removeAll()
+                
                 // MARK: - TODO Refactoring
                 //TODO: CSNPlane with animation usging sequence of images
                 //self.displayLayerViewAnimation(on: mainNode, width: w, height: h, z: 0.01)
@@ -160,12 +192,17 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     }
     
     func displayLayerView(on rootNode: SCNNode, width: CGFloat, height: CGFloat, z: Float, name: String, order reoderingOrder: Int) {
-        let layer = SCNPlane(width: width, height: height)
+        let layer = SCNPlane(width: width + (width * abs(CGFloat(z))) , height: height + (height * abs(CGFloat(z))))
         layer.firstMaterial?.diffuse.contents = UIImage(named: name)
 
         let layerNode = SCNNode(geometry: layer)
         layerNode.position.z = z
         layerNode.renderingOrder = -reoderingOrder
+//        layerNode.scale = SCNVector3(x: Float(1 + (width * abs(CGFloat(z)))), y: Float(1 + (width * abs(CGFloat(z)))), z: 0.5)
+        
+        let lNode = Layer(node: layerNode, scale: layerNode.scale)
+        
+        layers.append(lNode)
         
         rootNode.addChildNode(layerNode)
     }
