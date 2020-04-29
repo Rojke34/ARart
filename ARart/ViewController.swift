@@ -9,6 +9,11 @@
 import UIKit
 import ARKit
 
+struct Layer {
+    var node: SCNNode
+    var scale: SCNVector3
+}
+
 class ViewController: UIViewController, ARSCNViewDelegate {
 
     @IBOutlet weak var sessionInfoView: UIView!
@@ -28,57 +33,59 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     }()
     
     var birds: [UIImage] = {
-           let im1 = UIImage(named: "birds_0")!
-           let im2 = UIImage(named: "birds_1")!
-           let im3 = UIImage(named: "birds_2")!
-           let im4 = UIImage(named: "birds_3")!
-           let im5 = UIImage(named: "birds_4")!
-           let im6 = UIImage(named: "birds_5")!
-           let im7 = UIImage(named: "birds_6")!
-           let im8 = UIImage(named: "birds_7")!
-           let im9 = UIImage(named: "birds_8")!
-           let im10 = UIImage(named: "birds_9")!
-           let im11 = UIImage(named: "birds_10")!
-           let im12 = UIImage(named: "birds_11")!
-           let im13 = UIImage(named: "birds_12")!
-           let im14 = UIImage(named: "birds_13")!
-           
-           return [im1, im2, im3, im4, im5, im6, im7, im8, im9, im10, im11, im12, im13, im14]
-       }()
+       let im1 = UIImage(named: "birds_0")!
+       let im2 = UIImage(named: "birds_1")!
+       let im3 = UIImage(named: "birds_2")!
+       let im4 = UIImage(named: "birds_3")!
+       let im5 = UIImage(named: "birds_4")!
+       let im6 = UIImage(named: "birds_5")!
+       let im7 = UIImage(named: "birds_6")!
+       let im8 = UIImage(named: "birds_7")!
+       let im9 = UIImage(named: "birds_8")!
+       let im10 = UIImage(named: "birds_9")!
+       let im11 = UIImage(named: "birds_10")!
+       let im12 = UIImage(named: "birds_11")!
+       let im13 = UIImage(named: "birds_12")!
+       let im14 = UIImage(named: "birds_13")!
+       
+       return [im1, im2, im3, im4, im5, im6, im7, im8, im9, im10, im11, im12, im13, im14]
+    }()
       
-      var bg: [UIImage] = {
-          let im1 = UIImage(named: "bg_0")!
-          let im2 = UIImage(named: "bg_1")!
-          let im3 = UIImage(named: "bg_0")!
-          let im4 = UIImage(named: "bg_1")!
-          let im5 = UIImage(named: "bg_0")!
-          let im6 = UIImage(named: "bg_1")!
-          let im7 = UIImage(named: "bg_0")!
-          let im8 = UIImage(named: "bg_1")!
-          let im9 = UIImage(named: "bg_0")!
-          let im10 = UIImage(named: "bg_1")!
-          
-          return [im1, im2, im3, im4, im5, im6, im7, im8, im9, im10]
-      }()
+    var bg: [UIImage] = {
+        let im1 = UIImage(named: "bg_0")!
+        let im2 = UIImage(named: "bg_1")!
+        let im3 = UIImage(named: "bg_0")!
+        let im4 = UIImage(named: "bg_1")!
+        let im5 = UIImage(named: "bg_0")!
+        let im6 = UIImage(named: "bg_1")!
+        let im7 = UIImage(named: "bg_0")!
+        let im8 = UIImage(named: "bg_1")!
+        let im9 = UIImage(named: "bg_0")!
+        let im10 = UIImage(named: "bg_1")!
+
+        return [im1, im2, im3, im4, im5, im6, im7, im8, im9, im10]
+    }()
       
-      var woman: [UIImage] = {
-          let im1 = UIImage(named: "girl_0")!
-          let im2 = UIImage(named: "girl_1")!
-          let im3 = UIImage(named: "girl_2")!
-          let im4 = UIImage(named: "girl_3")!
-          let im5 = UIImage(named: "girl_4")!
-          let im6 = UIImage(named: "girl_5")!
-          let im7 = UIImage(named: "girl_6")!
-          let im8 = UIImage(named: "girl_7")!
-          let im9 = UIImage(named: "girl_8")!
-          let im10 = UIImage(named: "girl_9")!
-          let im11 = UIImage(named: "girl_10")!
-          let im12 = UIImage(named: "girl_11")!
-          let im13 = UIImage(named: "girl_12")!
-          let im14 = UIImage(named: "girl_13")!
-          
-          return [im1, im2, im3, im4, im5, im6, im7, im8, im9, im10, im11, im12, im13, im14]
-      }()
+    var woman: [UIImage] = {
+        let im1 = UIImage(named: "girl_0")!
+        let im2 = UIImage(named: "girl_1")!
+        let im3 = UIImage(named: "girl_2")!
+        let im4 = UIImage(named: "girl_3")!
+        let im5 = UIImage(named: "girl_4")!
+        let im6 = UIImage(named: "girl_5")!
+        let im7 = UIImage(named: "girl_6")!
+        let im8 = UIImage(named: "girl_7")!
+        let im9 = UIImage(named: "girl_8")!
+        let im10 = UIImage(named: "girl_9")!
+        let im11 = UIImage(named: "girl_10")!
+        let im12 = UIImage(named: "girl_11")!
+        let im13 = UIImage(named: "girl_12")!
+        let im14 = UIImage(named: "girl_13")!
+
+        return [im1, im2, im3, im4, im5, im6, im7, im8, im9, im10, im11, im12, im13, im14]
+    }()
+
+    var layers = [Layer]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -116,6 +123,29 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     }
 
     // MARK: - ARSCNViewDelegate
+    func session(_ session: ARSession, cameraDidChangeTrackingState camera: ARCamera) {
+        var status = "Loading..."
+        switch camera.trackingState {
+        case ARCamera.TrackingState.notAvailable:
+            status = "Not available"
+        case ARCamera.TrackingState.limited(_):
+            status = "Analyzing..."
+        case ARCamera.TrackingState.normal:
+            status = "Ready"
+        }
+        
+        print(status)
+    }
+        
+    func renderer(_ renderer: SCNSceneRenderer, didUpdate node: SCNNode, for anchor: ARAnchor) {
+        #if DEBUG
+            let distance = simd_distance(node.simdTransform.columns.3, (self.sceneView.session.currentFrame?.camera.transform.columns.3)!);
+            
+            for index in layers {
+                index.node.scale = SCNVector3(x: index.scale.x + (index.scale.x * distance), y: index.scale.y + (index.scale.y * distance), z: 0.5)
+            }
+        #endif
+    }
     
     func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
         
@@ -140,7 +170,8 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             // Perform a quick animation to visualize the plane on which the image was detected.
             // We want to let our users know that the app is responding to the tracked image.
             self.highlightDetection(on: mainNode, width: w, height: h, completionHandler: {
-
+                self.layers.removeAll()
+                
                 //Create four plane around the tracked image with occlusion material
                 self.filterOcclusion(on: mainNode, width: w, height: h)
                 
@@ -164,12 +195,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         let occlusionNode = SCNNode()
         let colors: [UIColor] = [.red, .blue, .yellow, .green]
         let zPosition: [Float] = [0, 0.001, 0.002, 0.003]
-        let postion: [Float] = [
-            Float((height / 2) + height * 2),
-            -Float((height / 2) + height * 2),
-            -Float((width / 2) + width * 2),
-            Float((width / 2) + width * 2)
-        ]
+        let postion: [Float] = [Float((height / 2) + height * 2), -Float((height / 2) + height * 2), -Float((width / 2) + width * 2), Float((width / 2) + width * 2)]
         
         for index in 1...4 {
             let plane = SCNPlane(width: width * 4, height: height * 4)
@@ -224,9 +250,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         
         rootNode.addChildNode(planeNode)
         
-        planeNode.runAction(self.imageHighlightAction) {
-            block()
-        }
+        planeNode.runAction(self.imageHighlightAction) { block() }
     }
     
     var imageHighlightAction: SCNAction {
