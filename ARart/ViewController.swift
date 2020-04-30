@@ -154,20 +154,21 @@ class ViewController: UIViewController, ARSCNViewDelegate {
                 self.layers.removeAll()
                 
                 //Create four plane around the tracked image with occlusion material
-                self.filterOcclusion(on: mainNode, width: w, height: h)
+                //self.filterOcclusion(on: mainNode, width: w, height: h)
                 
                 // Introduce virtual content
                 // To introduce animation content first create an images array
                 
-                DispatchQueue.main.async { // Correct
-                    self.displayLayerView(on: mainNode,  w: w, h: h, z: 0.01, name: "child", order: 3005, hasAnimation: false, images: nil)
-                }
+                //MARK: - USING .GIF
+//                DispatchQueue.main.async { // Correct
+//                    self.displayLayerView(on: mainNode,  w: w, h: h, z: 0.01, name: "child", order: 3005, hasAnimation: false, images: nil)
+//                }
                 
 //                self.displayLayerView(on: mainNode,  w: w, h: h, z: 0.03, name: "001_montana.png", order: 3005, hasAnimation: false, images: nil)
 //                self.displayLayerView(on: mainNode,  w: w, h: h, z: 0.06, name: "002_bosque.png", order: 3005, hasAnimation: false, images: nil)
-//                self.displayLayerView(on: mainNode,  w: w, h: h, z: 0.09, name: "003_pueblo.png", order: 3005, hasAnimation: true, images: self.bg)
-//                self.displayLayerView(on: mainNode,  w: w, h: h, z: 0.35, name: "004_ladera.png", order: 3005, hasAnimation: true, images: self.birds)
-//                self.displayLayerView(on: mainNode,  w: w, h: h, z: 0.60, name: "000_cielo.png", order: 3005, hasAnimation: true, images: self.woman)
+                self.displayLayerView(on: mainNode,  w: w, h: h, z: 0.09, name: nil, order: 3005, hasAnimation: true, images: self.bg)
+                self.displayLayerView(on: mainNode,  w: w, h: h, z: 0.35, name: nil, order: 3005, hasAnimation: true, images: self.birds)
+                self.displayLayerView(on: mainNode,  w: w, h: h, z: 0.60, name: nil, order: 3005, hasAnimation: true, images: self.woman)
 //                self.displayLayerView(on: mainNode,  w: w, h: h, z: 0.15, name: "005_firma.png", order: 3005, hasAnimation:  false, images: nil)
                 
             })
@@ -204,7 +205,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         rootNode.addChildNode(occlusionNode)
     }
     
-    func displayLayerView(on rootNode: SCNNode, w width: CGFloat, h height: CGFloat, z zPosition: Float, name: String, order reoderingOrder: Int, hasAnimation: Bool, images: [UIImage]?) {
+    func displayLayerView(on rootNode: SCNNode, w width: CGFloat, h height: CGFloat, z zPosition: Float, name: String?, order reoderingOrder: Int, hasAnimation: Bool, images: [UIImage]?) {
         let node = SCNNode()
         
         if hasAnimation {
@@ -216,14 +217,15 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             }
         } else {
             
-            
-            let gifImage = UIImage.gifImageWithName(name)
-            let gifImageView = UIImageView(image: gifImage)
-            
-            let layer = SCNPlane(width: width, height: height)
-            layer.firstMaterial?.diffuse.contents = gifImageView
-            
-            node.geometry = layer
+            //MARK: - GIF
+//            let gifImage = UIImage.gifImageWithName(name)
+//            let gifImageView = UIImageView(image: gifImage) //usign as a material
+            if let imageName = name {
+                let layer = SCNPlane(width: width, height: height)
+                layer.firstMaterial?.diffuse.contents = imageName
+                
+                node.geometry = layer
+            }
         }
                 
         node.position.z = zPosition
