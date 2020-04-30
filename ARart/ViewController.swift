@@ -33,56 +33,37 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     }()
     
     var birds: [UIImage] = {
-       let im1 = UIImage(named: "birds_0")!
-       let im2 = UIImage(named: "birds_1")!
-       let im3 = UIImage(named: "birds_2")!
-       let im4 = UIImage(named: "birds_3")!
-       let im5 = UIImage(named: "birds_4")!
-       let im6 = UIImage(named: "birds_5")!
-       let im7 = UIImage(named: "birds_6")!
-       let im8 = UIImage(named: "birds_7")!
-       let im9 = UIImage(named: "birds_8")!
-       let im10 = UIImage(named: "birds_9")!
-       let im11 = UIImage(named: "birds_10")!
-       let im12 = UIImage(named: "birds_11")!
-       let im13 = UIImage(named: "birds_12")!
-       let im14 = UIImage(named: "birds_13")!
-       
-       return [im1, im2, im3, im4, im5, im6, im7, im8, im9, im10, im11, im12, im13, im14]
+        var array: [UIImage] = []
+        
+        for index in 1...71 {
+            let im = UIImage(named: "birds_\(index)")!
+            array.append(im)
+        }
+        
+       return array
     }()
       
     var bg: [UIImage] = {
-        let im1 = UIImage(named: "bg_0")!
-        let im2 = UIImage(named: "bg_1")!
-        let im3 = UIImage(named: "bg_0")!
-        let im4 = UIImage(named: "bg_1")!
-        let im5 = UIImage(named: "bg_0")!
-        let im6 = UIImage(named: "bg_1")!
-        let im7 = UIImage(named: "bg_0")!
-        let im8 = UIImage(named: "bg_1")!
-        let im9 = UIImage(named: "bg_0")!
-        let im10 = UIImage(named: "bg_1")!
-
-        return [im1, im2, im3, im4, im5, im6, im7, im8, im9, im10]
+        var array: [UIImage] = []
+         
+         for index in 1...71 {
+             let im = UIImage(named: "bg_\(index)")!
+             array.append(im)
+         }
+         
+        return array
     }()
       
     var woman: [UIImage] = {
-        let im1 = UIImage(named: "girl_0")!
-        let im2 = UIImage(named: "girl_1")!
-        let im3 = UIImage(named: "girl_2")!
-        let im4 = UIImage(named: "girl_3")!
-        let im5 = UIImage(named: "girl_4")!
-        let im6 = UIImage(named: "girl_5")!
-        let im7 = UIImage(named: "girl_6")!
-        let im8 = UIImage(named: "girl_7")!
-        let im9 = UIImage(named: "girl_8")!
-        let im10 = UIImage(named: "girl_9")!
-        let im11 = UIImage(named: "girl_10")!
-        let im12 = UIImage(named: "girl_11")!
-        let im13 = UIImage(named: "girl_12")!
-        let im14 = UIImage(named: "girl_13")!
-
-        return [im1, im2, im3, im4, im5, im6, im7, im8, im9, im10, im11, im12, im13, im14]
+        var array: [UIImage] = []
+         
+         for index in 1...71 {
+             let im = UIImage(named: "girl_\(index)")!
+             array.append(im)
+         }
+         
+        return array
+        
     }()
 
     var layers = [Layer]()
@@ -134,7 +115,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             status = "Ready"
         }
         
-        print(status)
+        sessionInfoLabel.text = status
     }
         
     func renderer(_ renderer: SCNSceneRenderer, didUpdate node: SCNNode, for anchor: ARAnchor) {
@@ -178,13 +159,16 @@ class ViewController: UIViewController, ARSCNViewDelegate {
                 // Introduce virtual content
                 // To introduce animation content first create an images array
                 
-                self.displayLayerView(on: mainNode,  w: w, h: h, z: 0.01, name: "000_cielo.png", order: 3005, hasAnimation: false, images: nil)
-                self.displayLayerView(on: mainNode,  w: w, h: h, z: 0.03, name: "001_montana.png", order: 3005, hasAnimation: false, images: nil)
-                self.displayLayerView(on: mainNode,  w: w, h: h, z: 0.06, name: "002_bosque.png", order: 3005, hasAnimation: false, images: nil)
-                self.displayLayerView(on: mainNode,  w: w, h: h, z: 0.09, name: "003_pueblo.png", order: 3005, hasAnimation: false, images: nil)
-                self.displayLayerView(on: mainNode,  w: w, h: h, z: 0.12, name: "004_ladera.png", order: 3005, hasAnimation: true, images: self.birds)
-                self.displayLayerView(on: mainNode,  w: w, h: h, z: 0.13, name: "000_cielo.png", order: 3005, hasAnimation: true, images: self.woman)
-                self.displayLayerView(on: mainNode,  w: w, h: h, z: 0.15, name: "005_firma.png", order: 3005, hasAnimation:  false, images: nil)
+                DispatchQueue.main.async { // Correct
+                    self.displayLayerView(on: mainNode,  w: w, h: h, z: 0.01, name: "child", order: 3005, hasAnimation: false, images: nil)
+                }
+                
+//                self.displayLayerView(on: mainNode,  w: w, h: h, z: 0.03, name: "001_montana.png", order: 3005, hasAnimation: false, images: nil)
+//                self.displayLayerView(on: mainNode,  w: w, h: h, z: 0.06, name: "002_bosque.png", order: 3005, hasAnimation: false, images: nil)
+//                self.displayLayerView(on: mainNode,  w: w, h: h, z: 0.09, name: "003_pueblo.png", order: 3005, hasAnimation: true, images: self.bg)
+//                self.displayLayerView(on: mainNode,  w: w, h: h, z: 0.35, name: "004_ladera.png", order: 3005, hasAnimation: true, images: self.birds)
+//                self.displayLayerView(on: mainNode,  w: w, h: h, z: 0.60, name: "000_cielo.png", order: 3005, hasAnimation: true, images: self.woman)
+//                self.displayLayerView(on: mainNode,  w: w, h: h, z: 0.15, name: "005_firma.png", order: 3005, hasAnimation:  false, images: nil)
                 
             })
         }
@@ -225,14 +209,19 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         
         if hasAnimation {
             if let imagesArray = images {
-                let animateLayer = AnimatedPlane(width: width, height: height, images: imagesArray)
+                let animateLayer = AnimatedPlane(width: width, height: height, desiredFPS: 15, images: imagesArray)
                 animateLayer.startAnimation()
                 
                 node.geometry = animateLayer
             }
         } else {
+            
+            
+            let gifImage = UIImage.gifImageWithName(name)
+            let gifImageView = UIImageView(image: gifImage)
+            
             let layer = SCNPlane(width: width, height: height)
-            layer.firstMaterial?.diffuse.contents = name
+            layer.firstMaterial?.diffuse.contents = gifImageView
             
             node.geometry = layer
         }

@@ -14,12 +14,14 @@ class AnimatedPlane: SCNPlane {
     var animationImageFrameIndex : Double = 0
     var displayLink : CADisplayLink?
     var images: [UIImage] = []
+    var desiredFPS: Double = 0
     
-    init(width: CGFloat, height: CGFloat, images: [UIImage]) {
+    init(width: CGFloat, height: CGFloat, desiredFPS: Double, images: [UIImage]) {
         super.init()
         
         self.width = width
         self.height = height
+        self.desiredFPS = desiredFPS
         self.images = images
     }
     
@@ -35,7 +37,6 @@ class AnimatedPlane: SCNPlane {
     }
     
     @objc func animationStep(_ displayLink: CADisplayLink) {
-        let desiredFPS : Double = 24
         let realFPS = 1 / (displayLink.targetTimestamp - displayLink.timestamp)
 
         self.firstMaterial?.diffuse.contents = images[Int(animationImageFrameIndex)]

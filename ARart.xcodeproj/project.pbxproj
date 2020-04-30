@@ -13,6 +13,8 @@
 		A125DD842447557F009452EC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A125DD832447557F009452EC /* Assets.xcassets */; };
 		A125DD872447557F009452EC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A125DD852447557F009452EC /* LaunchScreen.storyboard */; };
 		A1269B342452227D00F866C6 /* AnimatedPlane.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1269B332452227D00F866C6 /* AnimatedPlane.swift */; };
+		A1269B40245B5CF000F866C6 /* UIImage+Gif.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1269B3F245B5CF000F866C6 /* UIImage+Gif.swift */; };
+		A1269B42245B5F4B00F866C6 /* child.gif in Resources */ = {isa = PBXBuildFile; fileRef = A1269B41245B5F4B00F866C6 /* child.gif */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +26,8 @@
 		A125DD862447557F009452EC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A125DD882447557F009452EC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A1269B332452227D00F866C6 /* AnimatedPlane.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedPlane.swift; sourceTree = "<group>"; };
+		A1269B3F245B5CF000F866C6 /* UIImage+Gif.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Gif.swift"; sourceTree = "<group>"; };
+		A1269B41245B5F4B00F866C6 /* child.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = child.gif; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,11 +62,13 @@
 			children = (
 				A125DD7A2447557A009452EC /* AppDelegate.swift */,
 				A125DD7E2447557A009452EC /* ViewController.swift */,
+				A1269B332452227D00F866C6 /* AnimatedPlane.swift */,
 				A125DD802447557A009452EC /* Main.storyboard */,
 				A125DD832447557F009452EC /* Assets.xcassets */,
 				A125DD852447557F009452EC /* LaunchScreen.storyboard */,
 				A125DD882447557F009452EC /* Info.plist */,
-				A1269B332452227D00F866C6 /* AnimatedPlane.swift */,
+				A1269B3F245B5CF000F866C6 /* UIImage+Gif.swift */,
+				A1269B41245B5F4B00F866C6 /* child.gif */,
 			);
 			path = ARart;
 			sourceTree = "<group>";
@@ -126,6 +132,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A125DD872447557F009452EC /* LaunchScreen.storyboard in Resources */,
+				A1269B42245B5F4B00F866C6 /* child.gif in Resources */,
 				A125DD842447557F009452EC /* Assets.xcassets in Resources */,
 				A125DD822447557A009452EC /* Main.storyboard in Resources */,
 			);
@@ -140,6 +147,7 @@
 			files = (
 				A125DD7F2447557A009452EC /* ViewController.swift in Sources */,
 				A1269B342452227D00F866C6 /* AnimatedPlane.swift in Sources */,
+				A1269B40245B5CF000F866C6 /* UIImage+Gif.swift in Sources */,
 				A125DD7B2447557A009452EC /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
